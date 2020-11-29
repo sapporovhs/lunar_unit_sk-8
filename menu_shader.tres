@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+void fragment() {
+	float time = TIME;
+	float limit = 1.0;
+	COLOR = texture(TEXTURE,abs(UV-vec2(modf(time/100.0,limit))));
+}"
+custom_defines = ""
+
+[resource]
+shader = SubResource( 1 )

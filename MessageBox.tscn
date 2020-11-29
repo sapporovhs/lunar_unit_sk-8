@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://MessageBox.gd" type="Script" id=1]
+[ext_resource path="res://panel_style.tres" type="StyleBox" id=2]
+[ext_resource path="res://png/player_face.png" type="Texture" id=3]
+[ext_resource path="res://png/moon_face.png" type="Texture" id=4]
+
+[node name="MessageBox" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerFace" type="TextureRect" parent="."]
+visible = false
+margin_top = 384.0
+margin_right = 103.0
+margin_bottom = 512.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoonFace" type="TextureRect" parent="."]
+visible = false
+margin_left = 384.0
+margin_top = 256.0
+margin_right = 640.0
+margin_bottom = 512.0
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+margin_top = 512.0
+margin_right = 639.0
+margin_bottom = 640.0
+custom_styles/panel = ExtResource( 2 )
+
+[node name="SpeakerLabel" type="Label" parent="Panel"]
+margin_left = 10.0
+margin_top = 7.0
+margin_right = 640.0
+margin_bottom = 39.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0.956863, 0.839216, 0.560784, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0.172549, 0.298039, 1 )
+custom_colors/font_color_shadow = Color( 0, 0.172549, 0.298039, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 0
+text = "Speaker"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MessageLabel" type="Label" parent="Panel"]
+margin_left = 24.0
+margin_top = 41.0
+margin_right = 320.0
+margin_bottom = 78.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0.898039, 0.901961, 0.780392, 1 )
+custom_constants/line_spacing = 0
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at libero pellentesque enim efficitur iaculis a ut massa. Phasellus metus ipsum, posuere non justo et, semper commodo felis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec blandit fermentum leo sit amet commodo. Fusce eu ex risus. Sed efficitur ac tortor sed congue. Vivamus ut sem sed lorem tempor fermentum. Nam in accumsan libero. Donec purus ex, semper nec quam ut, sagittis fringilla ante."
+align = 3
+autowrap = true
+clip_text = true
+percent_visible = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SFXTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+[connection signal="timeout" from="SFXTimer" to="." method="_on_SFXTimer_timeout"]

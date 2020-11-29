@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise;
+
+void fragment() {
+	COLOR.r = texture(noise,UV).r;
+	COLOR *= texture(TEXTURE,SCREEN_UV+vec2(TIME/100.0,TIME/160.0));
+	COLOR.rgb += texture(noise,SCREEN_UV-vec2(TIME/200.0,TIME/100.0)).rgb/2.0;
+	
+}"
+custom_defines = ""
+
+[sub_resource type="OpenSimplexNoise" id=2]
+octaves = 4
+period = 11.8
+
+[sub_resource type="NoiseTexture" id=3]
+width = 64
+height = 64
+seamless = true
+noise = SubResource( 2 )
+
+[resource]
+shader = SubResource( 1 )
+shader_param/noise = SubResource( 3 )

@@ -1,0 +1,257 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://button_style.tres" type="StyleBox" id=1]
+[ext_resource path="res://panel_style.tres" type="StyleBox" id=2]
+[ext_resource path="res://png/title.png" type="Texture" id=3]
+[ext_resource path="res://png/title_mask.png" type="Texture" id=4]
+[ext_resource path="res://png/title_mask_2.png" type="Texture" id=5]
+[ext_resource path="res://MainMenu.gd" type="Script" id=6]
+[ext_resource path="res://png/panel.png" type="Texture" id=7]
+[ext_resource path="res://menu_shader.tres" type="Material" id=8]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 640, 640 )
+margin_left = 5.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+void fragment() {
+	COLOR = texture(TEXTURE,UV);
+	if (sin(TIME*1.0) > 0.0){
+		COLOR.rgb += vec3(sin(TIME*2.0));
+	}
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+uniform sampler2D gradientTexture;
+varying float edgeDistortionStrength;
+uniform float speed = 1.0;
+uniform float intensity = 0.01;
+
+varying vec2 vertPos;
+
+void vertex() {
+	edgeDistortionStrength = intensity * sin(TIME*speed);
+	vertPos = VERTEX.xy;
+}
+
+void fragment() {
+	vec4 distortionOffset = texture(gradientTexture, UV);
+
+	distortionOffset *= edgeDistortionStrength;
+	
+	vec2 originalUV = SCREEN_UV;
+	originalUV.x -= distortionOffset.r;
+	originalUV.y += distortionOffset.r;
+	
+	vec4 color = texture(SCREEN_TEXTURE, originalUV);
+	
+	COLOR = color;
+}"
+custom_defines = ""
+
+[sub_resource type="OpenSimplexNoise" id=5]
+seed = 2
+octaves = 4
+period = 32.7
+lacunarity = 4.0
+
+[sub_resource type="NoiseTexture" id=6]
+bump_strength = 19.8
+noise = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 4 )
+shader_param/speed = 1.0
+shader_param/intensity = 0.01
+shader_param/gradientTexture = SubResource( 6 )
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform sampler2D gradientTexture;
+uniform sampler2D gradientTexture2;
+varying float edgeDistortionStrength;
+uniform vec2 tiling = vec2(1,1); // is changed through code
+uniform vec2 offset = vec2(0,0); // is changed through code
+uniform float speed = 1.0;
+uniform float intensity = 0.01;
+
+varying vec2 vertPos;
+
+void vertex()
+{
+	edgeDistortionStrength = intensity * sin(TIME*speed);
+	vertPos = VERTEX;
+}
+
+void fragment()
+{
+	vec4 distortionOffset = texture(gradientTexture, UV);
+	
+	distortionOffset.rg *= vertPos * TEXTURE_PIXEL_SIZE;
+	distortionOffset *= edgeDistortionStrength;
+	
+	vec2 originalUV = SCREEN_UV;
+	vec4 gradient = texture(gradientTexture2, UV);
+	originalUV = originalUV * tiling + offset;
+	originalUV.x -= distortionOffset.r * gradient.x;
+	originalUV.y -= distortionOffset.g * gradient.y;
+	
+	vec4 color = texture(SCREEN_TEXTURE, originalUV);
+	
+	COLOR.rgb = color.rgb;
+	
+}"
+custom_defines = ""
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0, 0.5, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+width = 256
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 8 )
+shader_param/tiling = Vector2( 1, 1 )
+shader_param/offset = Vector2( 0, 0 )
+shader_param/speed = 0.01
+shader_param/intensity = 0.1
+shader_param/gradientTexture = ExtResource( 5 )
+shader_param/gradientTexture2 = SubResource( 10 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+material = ExtResource( 8 )
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 576.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource( 3 )
+margin_left = 128.0
+margin_top = 3.8147e-06
+margin_right = 384.0
+margin_bottom = 256.0
+rect_scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EasyModeButton" type="Button" parent="."]
+margin_left = 192.0
+margin_top = 320.0
+margin_right = 448.0
+margin_bottom = 364.0
+custom_styles/normal = ExtResource( 1 )
+text = "Play Normal Mode"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HardModeButton" type="Button" parent="."]
+margin_left = 192.0
+margin_top = 384.0
+margin_right = 448.0
+margin_bottom = 428.0
+custom_styles/normal = ExtResource( 1 )
+text = "Play Hard Mode (One Hit Death)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowCreditsButton" type="Button" parent="."]
+margin_left = 256.0
+margin_top = 512.0
+margin_right = 386.0
+margin_bottom = 556.0
+custom_styles/normal = ExtResource( 1 )
+text = "Show Credits"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Warper1" type="TextureRect" parent="."]
+visible = false
+material = SubResource( 7 )
+margin_left = 171.679
+margin_top = 106.715
+margin_right = 491.679
+margin_bottom = 362.715
+rect_scale = Vector2( 1, 0.8 )
+mouse_filter = 2
+texture = ExtResource( 4 )
+stretch_mode = 1
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Warper3" type="TextureRect" parent="."]
+material = SubResource( 11 )
+margin_left = -256.0
+margin_bottom = 640.0
+rect_pivot_offset = Vector2( 128, 320 )
+mouse_filter = 2
+texture = ExtResource( 5 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditsPanel" type="Panel" parent="."]
+visible = false
+material = ExtResource( 8 )
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 448.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="Label" parent="CreditsPanel"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 352.0
+margin_bottom = 416.0
+custom_styles/normal = ExtResource( 2 )
+text = "\"Lunar Unit SK-8\"
+Created for Git Hub Game Jam 2020
+with Godot Game Engine (godotengine.org)
+
+Programming/Art/Sound by Anthony George 
+(sapporovhs.bandcamp.com)"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="EasyModeButton" to="." method="_on_EasyModeButton_pressed"]
+[connection signal="pressed" from="HardModeButton" to="." method="_on_HardModeButton_pressed"]
+[connection signal="pressed" from="ShowCreditsButton" to="." method="_on_ShowCreditsButton_pressed"]

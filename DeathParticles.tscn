@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://DeathParticles.gd" type="Script" id=1]
+[ext_resource path="res://png/particle.png" type="Texture" id=2]
+
+[sub_resource type="Curve" id=1]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, -360 ), 0.0, 0.0, 0, 0, Vector2( 1, -79.3636 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.502439, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="DeathParticles" type="CPUParticles2D"]
+modulate = Color( 0.109804, 0.592157, 0.662745, 0.501961 )
+position = Vector2( 32.2136, 31.4644 )
+z_index = 1
+emitting = false
+amount = 50
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+texture = ExtResource( 2 )
+direction = Vector2( 0, 1 )
+spread = 90.0
+gravity = Vector2( 0, 100 )
+initial_velocity = 75.0
+initial_velocity_random = 1.0
+orbit_velocity_random = 1.0
+linear_accel = 1.0
+linear_accel_random = 1.0
+damping = 100.0
+damping_random = 1.0
+angle_random = 1.0
+angle_curve = SubResource( 1 )
+scale_amount = 3.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 2 )
+script = ExtResource( 1 )

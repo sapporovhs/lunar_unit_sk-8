@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://png/spikes.png" type="Texture" id=1]
+[ext_resource path="res://Spikes.gd" type="Script" id=2]
+[ext_resource path="res://wall_shader.tres" type="Material" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 31 )
+
+[node name="Spikes" type="StaticBody2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 3 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 48, 32 )
+shape = SubResource( 1 )
+
+[node name="EventArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EventArea"]
+visible = false
+position = Vector2( 16, 32 )
+shape = SubResource( 1 )
+[connection signal="body_entered" from="EventArea" to="." method="_on_EventArea_body_entered"]

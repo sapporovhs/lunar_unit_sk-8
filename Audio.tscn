@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Audio.gd" type="Script" id=1]
+[ext_resource path="res://music/intro.ogg" type="AudioStream" id=2]
+[ext_resource path="res://music/sequence_layer.ogg" type="AudioStream" id=3]
+[ext_resource path="res://music/square_layer.ogg" type="AudioStream" id=4]
+[ext_resource path="res://music/lead2_layer.ogg" type="AudioStream" id=5]
+[ext_resource path="res://music/lead1_layer.ogg" type="AudioStream" id=6]
+[ext_resource path="res://music/boss.ogg" type="AudioStream" id=7]
+[ext_resource path="res://music/bass_layer.ogg" type="AudioStream" id=8]
+[ext_resource path="res://music/preboss.ogg" type="AudioStream" id=9]
+[ext_resource path="res://music/drum_layer.ogg" type="AudioStream" id=10]
+
+[node name="Audio" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="SFXChannels" type="Node2D" parent="."]
+
+[node name="1" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="2" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="3" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="4" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="5" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="6" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="7" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="8" type="AudioStreamPlayer" parent="SFXChannels"]
+volume_db = -8.0
+
+[node name="MusicChannels" type="Node2D" parent="."]
+
+[node name="intro" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 2 )
+volume_db = -8.0
+
+[node name="0" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 10 )
+volume_db = -11.0
+
+[node name="1" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 8 )
+volume_db = -11.0
+
+[node name="2" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 3 )
+volume_db = -11.0
+
+[node name="3" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 6 )
+volume_db = -11.0
+
+[node name="4" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 5 )
+volume_db = -11.0
+
+[node name="5" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 4 )
+volume_db = -11.0
+
+[node name="6" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 9 )
+volume_db = -11.0
+
+[node name="boss" type="AudioStreamPlayer" parent="MusicChannels"]
+stream = ExtResource( 7 )
+volume_db = -11.0
+
+[node name="OnTween" type="Tween" parent="MusicChannels"]
+
+[node name="OffTween" type="Tween" parent="MusicChannels"]

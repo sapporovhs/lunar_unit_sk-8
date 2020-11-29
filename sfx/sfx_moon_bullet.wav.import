@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sfx_moon_bullet.wav-7fa465364a6102cc82fab2d5f96461cf.sample"
+
+[deps]
+
+source_file="res://sfx/sfx_moon_bullet.wav"
+dest_files=[ "res://.import/sfx_moon_bullet.wav-7fa465364a6102cc82fab2d5f96461cf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
